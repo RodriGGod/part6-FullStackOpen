@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addVote, createAnecdote } from './reducers/anecdoteReducer'
 import Anecdotes from './components/Anecdotes'
 import NewAnecdote from './components/NewAnecdote'
+import Filter from './components/Filter'
 
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
+      <Filter/>
       <Anecdotes/>
       <NewAnecdote/>
     </div>
