@@ -5,7 +5,7 @@ const Notification = () => {
 
   const notification = useSelector(state => state.notification.message)
 
-  console.log(String(notification) + "hola")
+  console.log(String(notification) )
 
   const style = {
     border: 'solid',

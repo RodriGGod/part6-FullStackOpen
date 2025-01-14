@@ -1,7 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { addVote } from '../reducers/anecdoteReducer'
-import { setNotification, removeNotification } from '../reducers/notificationReducer'
-import { createSelector } from 'reselect'
+import { vote } from '../reducers/anecdoteReducer'
+
+import { setNotification, removeNotification, showNotification } from '../reducers/notificationReducer'
+
+/* import { createSelector } from 'reselect'
+import anecdoteService from '../services/anecdotes'
+import { setAnecdotes } from '../reducers/anecdoteReducer'
+import { filterChange } from '../reducers/filterReducer'
+import { useEffect } from 'react'
+import { initializeAnecdotes } from '../reducers/anecdoteReducer' */
 
 
 
@@ -22,36 +29,40 @@ const Anecdote = ({ anecdote, handleClick }) => {
 
 
 const Anecdotes = () => {
+
     const dispatch = useDispatch()
-    const selectFilteredAnecdotes = createSelector(
-        state => state.anecdotes,
-        state => state.filter,
-        (anecdotes, filter) => 
-            anecdotes
-                .filter(anecdote => anecdote.content.toLowerCase().includes((filter || '').toLowerCase()))
-                .sort((a, b) => b.votes - a.votes)
-    )
-
-    const anecdotes = useSelector(selectFilteredAnecdotes)
-
+    
+    const filter = useSelector((state) => state.filter)
 
     
+    
+    const anecdotes = useSelector((state) =>
+        state.anecdotes.filter((anecdote) =>
+          anecdote.content.toLowerCase().includes(filter.toLowerCase())
+        )
+      )
+    
+
+    /* useEffect(() => {
+        dispatch(initializeAnecdotes())
+    }, [dispatch]) */
+
+   
+
 
     const Vote = (id) => {
 
-        dispatch(addVote(id))
-
+        dispatch(vote(id))
+        
         const anecdote = anecdotes.find(n => n.id === id)
 
-        dispatch(setNotification("you voted for " + anecdote.content))
+        dispatch(showNotification("you voted for " + anecdote.content))
 
-        setTimeout(() => {
-            dispatch(removeNotification())
-          }, 5000)
+        
 
     }
 
-    
+
 
     return (
         <div>
